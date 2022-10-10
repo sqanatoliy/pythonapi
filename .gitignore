@@ -1,0 +1,4 @@
+# Byte-compiled / optimized / DLL files
+.idea
+.pytest_cashe
+__pycache__/
