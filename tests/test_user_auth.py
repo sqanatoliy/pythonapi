@@ -3,6 +3,7 @@ import pytest
 import requests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+import time
 
 
 class TestUserAuth(BaseCase):
@@ -21,6 +22,7 @@ class TestUserAuth(BaseCase):
             "username": self.email,
             "password": "Password"
         }
+        time.sleep(1)
         response = requests.post(self.host + "/register", data=self.data)
 
         Assertions.assert_status_code(response, 201)

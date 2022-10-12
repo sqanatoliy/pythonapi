@@ -8,7 +8,7 @@ class TestUserRegister(BaseCase):
     def setup(self):
         base_part = "testqa"
         domain = "test.com"
-        random_part = datetime.now().strftime("/%d-%m-%Y/%H:%M:%S")[:19]
+        random_part = datetime.now().strftime("/%d-%m-%Y/%H:%M:%S")[:18]
         self.email = f"{base_part}{random_part}@{domain}"
 
     def test_create_user_successfully(self):
