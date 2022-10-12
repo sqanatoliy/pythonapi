@@ -10,9 +10,13 @@ This is a tutorial project that shows how to implement api tests in Python
 The project uses:
 
 Python
+
 Requests
+
 Allure for reports
+
 Docker
+
 
 Testing application (write with Flask):
 
