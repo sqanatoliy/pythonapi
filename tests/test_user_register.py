@@ -32,7 +32,7 @@ class TestUserRegister(BaseCase):
             "password": "Password"
         }
         response = requests.post("https://stores-tests-api.herokuapp.com/register", data=data)
-        print(response.json())
+        # print(response.json())
         Assertions.assert_status_code(response, 400)
         Assertions.assert_json_has_key(response, "uuid")
         Assertions.assert_json_value_by_name(
