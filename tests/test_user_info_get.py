@@ -42,7 +42,7 @@ class TestUserInfo(BaseCase):
         self.access_token = self.get_json_value(response_login, 'access_token')
 
     def test_get_user_info(self):
-        headers = {"Authorization": "JWT " + self.access_token}
+        self.headers["Authorization"] = "JWT " + self.access_token
         self.user_data = {
             "phone": f"{self.user_uuid * 10}",
             "email": f"{self.user_uuid}@test.test",
@@ -53,10 +53,10 @@ class TestUserInfo(BaseCase):
             }
         }
         response_user_info_post = requests.post(self.host + '/user_info/' + self.user_uuid, json=self.user_data,
-                                                headers=headers)
+                                                headers=self.headers)
         # print(response_user_info_post.json())
 
-        response_user_info_get = requests.get(self.host + '/user_info/' + self.user_uuid, headers=headers)
+        response_user_info_get = requests.get(self.host + '/user_info/' + self.user_uuid, headers=self.headers)
         Assertions.assert_status_code(response_user_info_get, 200)
         Assertions.assert_json_value_by_name(
             response_user_info_get,
@@ -68,8 +68,8 @@ class TestUserInfo(BaseCase):
     @pytest.mark.parametrize('condition', exclude_params)
     def test_get_negative_user_info(self, condition):
         if condition == 'no_user_data':
-            headers = {"Authorization": "JWT " + self.access_token}
-            response_user_info = requests.get(self.host + '/user_info/' + self.user_uuid, headers=headers)
+            self.headers["Authorization"] = "JWT " + self.access_token
+            response_user_info = requests.get(self.host + '/user_info/' + self.user_uuid, headers=self.headers)
             Assertions.assert_status_code(response_user_info, 404)
             Assertions.assert_json_value_by_name(
                 response_user_info,
