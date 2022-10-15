@@ -1,43 +1,40 @@
-import requests
+from lib.my_requests import MyRequests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
-from datetime import datetime
 
 
 class TestUserRegister(BaseCase):
-    def setup(self):
-        base_part = "testqa"
-        domain = "test.com"
-        random_part = datetime.now().strftime("/%d-%m-%Y/%H:%M:%S")[:18]
-        self.email = f"{base_part}{random_part}@{domain}"
 
     def test_create_user_successfully(self):
-        data = {
-            "username": self.email,
-            "password": "Password"
-        }
+        # CREATE USER WITH NEW DATA
+        register_data = self.prepare_registration_data()
+        email = register_data["username"][:24]
+        register_data['username'] = email
+        response = MyRequests.post("/register", data=register_data)
 
-        response = requests.post("https://stores-tests-api.herokuapp.com/register", data=data)
-        Assertions.assert_status_code(response, 201)
-        Assertions.assert_json_has_key(response, "uuid")
+        expected_fields = ['message', 'uuid']
+        Assertions.assert_json_has_keys(response, expected_fields)
         Assertions.assert_json_value_by_name(
             response,
             'message',
             'User created successfully.',
-            f"Unexpected response message! Expected: 'User created successfully.'Actual: {response.json()['message']}")
+            f"Unexpected response message! Expected: 'User created successfully.'Actual: {response.json()['message']}"
+        )
+        Assertions.assert_status_code(response, 201)
 
     def test_create_user_with_existing_email(self):
-        data = {
-            "username": self.email,
-            "password": "Password"
-        }
-        response = requests.post("https://stores-tests-api.herokuapp.com/register", data=data)
-        # print(response.json())
-        Assertions.assert_status_code(response, 400)
-        Assertions.assert_json_has_key(response, "uuid")
+        # CREATE USER WITH SAME DATA
+        register_data = self.prepare_registration_data()
+        email = register_data["username"][:24]
+        register_data['username'] = email
+
+        response = MyRequests.post("/register", data=register_data)
+        expected_fields = ['message', 'uuid']
+        Assertions.assert_json_has_keys(response, expected_fields)
         Assertions.assert_json_value_by_name(
             response,
             'message',
             "A user with that username already exists",
             f"Unexpected response message! Expected: 'A user with that username already exists' "
             f"Actual: {response.json()['message']}")
+        Assertions.assert_status_code(response, 400)
