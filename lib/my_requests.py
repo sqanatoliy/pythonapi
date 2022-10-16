@@ -1,6 +1,7 @@
 import requests
 from lib.logger import Logger
 import allure
+from environment import ENV_OBJECT
 
 
 class MyRequests:
@@ -27,7 +28,7 @@ class MyRequests:
     @staticmethod
     def _send(url: str, data: dict, json: dict, headers: dict, cookies: dict, method: str):
 
-        url = f"https://stores-tests-api.herokuapp.com{url}"
+        url = f"{ENV_OBJECT.get_base_url()}{url}"
 
         if headers is None:
             headers = {}
