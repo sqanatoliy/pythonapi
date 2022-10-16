@@ -2,8 +2,10 @@ import pytest
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from lib.my_requests import MyRequests
+import allure
 
 
+@allure.epic("Authorization cases")
 class TestUserAuth(BaseCase):
     # PARAMETERS FOR NEGATIVE TEST
     exclude_params = [
@@ -15,6 +17,7 @@ class TestUserAuth(BaseCase):
         # CREATE DATA FOR REGISTRATION
         self.register_data = self.prepare_registration_data()
 
+    @allure.description('This test successfully authorize user by email and password')
     def test_auth_user(self):
         # REGISTER USER
         response = MyRequests.post("/register", data=self.register_data)
@@ -29,6 +32,7 @@ class TestUserAuth(BaseCase):
         Assertions.assert_json_has_key(response_login, 'access_token')
         self.access_token = self.get_json_value(response_login, 'access_token')
 
+    @allure.description('This test check authorization status w/o sending username or password')
     @pytest.mark.parametrize('condition', exclude_params)
     def test_negative_auth_check(self, condition):
         # GET RESPONSE WITHOUT USERNAME

@@ -2,8 +2,10 @@ import pytest
 from lib.my_requests import MyRequests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+import allure
 
 
+@allure.epic("User info cases")
 class TestUserInfo(BaseCase):
     exclude_params = [
         "no_token",
@@ -30,6 +32,7 @@ class TestUserInfo(BaseCase):
         # HEADERS WITH ACCESS TOKEN
         self.headers = {"Authorization": "JWT " + access_token}
 
+    @allure.description('This test successfully post user info')
     def test_post_user_info(self):
         # CREATE USER DATA
         response_user_info_post = MyRequests.post('/user_info/' + self.user_uuid, json=self.user_data,
@@ -42,6 +45,7 @@ class TestUserInfo(BaseCase):
             f"Unexpected response message! Expected: 'User info created successfully.' Actual: {response_user_info_post.json()['message']}"
         )
 
+    @allure.description('This test successfully update user info')
     def test_put_user_info(self):
         # CREATE USER DATA
         response_user_info_post = MyRequests.post('/user_info/' + self.user_uuid, json=self.user_data,
@@ -87,6 +91,7 @@ class TestUserInfo(BaseCase):
         )
         Assertions.assert_status_code(response_new_user_info_get, 200)
 
+    @allure.description('This test successfully get user info')
     def test_get_user_info(self):
         # CREATE USER DATA
         response_user_info_post = MyRequests.post('/user_info/' + self.user_uuid, json=self.user_data,
@@ -106,6 +111,7 @@ class TestUserInfo(BaseCase):
         )
         Assertions.assert_status_code(response_user_info_get, 200)
 
+    @allure.description('This test unsuccessfully get user info')
     @pytest.mark.parametrize('condition', exclude_params)
     def test_get_user_info_negative(self, condition):
         # GET RESPONSE WITHOUT USER DATA
