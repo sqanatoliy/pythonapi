@@ -10,13 +10,13 @@ class Environment:
         PROD: 'https://stores-tests-api.herokuapp.com/prod_api'
     }
 
-    # env = os.environ['ENV']
+    env = os.environ['ENV']
 
-    def __int__(self):
-        try:
-            self.env = os.environ['ENV']
-        except KeyError:
-            self.env = self.DEV
+    # def __int__(self):
+    #     try:
+    #         self.env = os.environ['ENV']
+    #     except KeyError:
+    #         self.env = self.DEV
 
     def get_base_url(self):
         if self.env in self.URLS:
