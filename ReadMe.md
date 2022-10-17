@@ -34,6 +34,9 @@ pip install -r requirements.txt
 Run all tests
 pytest
 
+start in docker: docker-compose up --build
+
+
 Some requests require an authorization token. Use header like
 
 "Authorization": "JWT {token}"

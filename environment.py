@@ -10,7 +10,10 @@ class Environment:
         PROD: 'https://stores-tests-api.herokuapp.com/prod_api'
     }
 
-    env = os.environ['ENV']
+    try:
+        env = os.environ['ENV']
+    except KeyError:
+        env = DEV
 
     # def __int__(self):
     #     try:
