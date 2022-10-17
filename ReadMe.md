@@ -34,7 +34,7 @@ pip install -r requirements.txt
 Run all tests
 pytest
 
-start in docker: docker-compose up --build
+Set the value of the variable(windows): set ENV=dev
 
 
 Some requests require an authorization token. Use header like
