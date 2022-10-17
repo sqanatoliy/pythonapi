@@ -1,4 +1,4 @@
-"""
+
 - Перевірити встановлений Docker > docker --version
 - Встановити образ Python > docker pull python
 - Створити Dockerfile в корені проекту для створення образу для запуску тестів
@@ -7,5 +7,3 @@
 - де src - місце з якого копіюються тести, target - куди копіюються тести.
 - створити docker-compose.yml
 - запускати командою > docker-compose up --build
-- 
-"""
